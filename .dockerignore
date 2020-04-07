@@ -1,0 +1,37 @@
+# ocamlbuild working directory
+_build/
+
+# ocamlbuild targets
+*.byte
+*.native
+
+# Merlin configuring file for Vim and Emacs
+.merlin
+
+# Dune generated files
+*.install
+
+# Local OPAM switch
+_opam/
+
+# Mirage artifcats
+mirage/*
+!mirage/config.ml
+!mirage/unikernel.ml
+
+# Git
+.github/
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+CHANGES.md
+CONTRIBUTING.md
+LICENSE
+
+# Development
+Dockerfile
+.ocamlformat
+script/

@@ -1,0 +1,7 @@
+(library
+ (name Mirage_demo)
+ (public_name mirage-demo.lib)
+ (modules (:standard))
+ (libraries httpaf httpaf-lwt-unix lwt lwt.unix routes logs.fmt))
+
+(include_subdirs unqualified)

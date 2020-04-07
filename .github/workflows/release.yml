@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: avsm/setup-ocaml@master
+        with:
+          ocaml-version: "4.09.0"
+
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "286.0.0"
+          service_account_email: ${{ secrets.GCE_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCE_SA_KEY }}
+          project_id: ${{ secrets.GCE_PROJECT }}
+
+      - uses: actions/checkout@v2
+
+      - name: Pin package
+        run: opam pin add mirage-demo.dev -n .
+
+      - name: Install build dependencies
+        run: opam install mirage mirage-unix
+
+      - name: Query and install external dependencies
+        run: opam depext -yt mirage-demo
+
+      - name: Install dependencies
+        run: opam install --deps-only --with-test -y .
+
+      - name: Build
+        run: make build
+
+      - name: Run tests
+        run: make test
+
+      - name: Build unikernel
+        working-directory: mirage
+        run: |
+          opam exec -- mirage configure -t virtio -vv --net=direct --dhcp=true
+          opam exec -- make depend
+          opam exec -- make
+          opam exec -- solo5-virtio-mkimage -f tar mirage-demo-latest.tar.gz mirage_demo.virtio
+          cp mirage-demo-latest.tar.gz ../
+
+      - name: Run tests
+        run: script/deploy.sh

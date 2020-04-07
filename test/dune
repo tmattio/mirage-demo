@@ -1,0 +1,20 @@
+(library
+ (name mirage_demo_test)
+ (flags -linkall -g -w -9)
+ (libraries alcotest httpaf bigstringaf faraday mirage-demo.lib)
+ (modules
+  (:standard \ test_runner)))
+
+(executable
+ (name test_runner)
+ (libraries alcotest mirage_demo_test)
+ (modules test_runner))
+
+(alias
+ (name runtest)
+ (deps
+  (:m test_runner.exe))
+ (action
+  (run %{m} -q --color=always)))
+
+(include_subdirs unqualified)

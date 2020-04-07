@@ -1,0 +1,5 @@
+pin-depends: [
+  ["httpaf.dev" "git+https://github.com/anmonteiro/httpaf#fork"]
+  ["httpaf-lwt.dev" "git+https://github.com/anmonteiro/httpaf#fork"]
+  ["httpaf-lwt-unix.dev" "git+https://github.com/anmonteiro/httpaf#fork"]
+]

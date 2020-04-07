@@ -1,0 +1,38 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: avsm/setup-ocaml@master
+        with:
+          ocaml-version: '4.09.0'
+
+      - uses: actions/checkout@v2
+
+      - name: Pin package
+        run: opam pin add mirage-demo.dev -n .
+
+      - name: Install build dependencies
+        run: opam install mirage mirage-unix
+
+      - name: Query and install external dependencies
+        run: opam depext -yt mirage-demo
+
+      - name: Install dependencies
+        run: make dev
+
+      - name: Build
+        run: make build
+
+      - name: Check formatting
+        run: make format
+
+      - name: Build unikernel
+        run: make mirage
+
+      - name: Run tests
+        run: make test

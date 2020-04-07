@@ -29,13 +29,13 @@ When you're creating the project, you would typically follow the next steps.
 
 ### Provision `global`
 
-In `infra/global`, you can run:
+In `infra/`, you can run:
 
 ```bash
 # Check that everything is ok
-terraform plan
+terraform plan -target=module.global
 # And deploy!
-terraform deploy
+terraform deploy -target=module.global
 ```
 
 When the deployment is done, you will need the output to create Github secrets. Add the following secrets to your repository's secrets:
@@ -60,13 +60,15 @@ gsutil cp mirage-demo-latest.tar.gz gs://mirage-images
 
 ### Provision `instance`
 
-When you have your first image pushed in Google Storage, you can provision the resources to run your unikernel. In `infra/instance`:
+When you have your first image pushed in Google Storage, you can provision the resources to run your unikernel.
+
+In `infra/`:
 
 ```bash
 # Check that everything is ok
-terraform plan
+terraform plan -target=module.global
 # And deploy!
-terraform deploy
+terraform deploy -target=module.global
 ```
 
 In the output, you should see the public IP attributed to your instance.

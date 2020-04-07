@@ -24,9 +24,4 @@ Take a look at our [Contributing Guide](CONTRIBUTING.md).
 ## TODO
 
 - Build image with commit ID
-- Add integration test
-- Add CI/CD
-- Add terraform
-  - IP addr
-  - Compute instance
-- Use auto scaling groups
+- Fix network routing issue
